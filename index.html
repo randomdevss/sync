@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sync Hub | Time Bomb Scripts</title>
+    <title>Sync Hub | Scripts</title>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,9 +23,9 @@
             --text-secondary: #888888; /* Grey Text */
             --accent-color: #ffffff;  /* White Accent */
             --border-color: #222222;
-            --nav-bg: rgba(5, 5, 5, 0.85); /* Glass effect support */
+            --nav-bg: rgba(5, 5, 5, 0.85);
             --code-bg: #0a0a0a;
-            --highlight: #00ff9d; /* Subtle Matrix Green hint, can be changed to pure white */
+            --highlight: #00ff9d; 
         }
 
         * {
@@ -121,7 +121,7 @@
         .nav-btn.active::after {
             content: '';
             position: absolute;
-            bottom: -4px; /* Adjusted for padding */
+            bottom: -4px;
             left: 0;
             width: 100%;
             height: 2px;
@@ -193,7 +193,7 @@
             color: white;
             text-decoration: none;
             padding: 1rem 2.2rem;
-            border-radius: 8px; /* Slightly sharper, tech look */
+            border-radius: 8px;
             font-weight: 600;
             font-size: 1rem;
             transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -227,7 +227,42 @@
             transform: translateY(-3px);
         }
 
-        /* --- SCRIPT TAB STYLES --- */
+        /* --- SEARCH BAR (UNIVERSAL) --- */
+        .search-container {
+            margin-bottom: 2.5rem;
+            position: relative;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .search-input:focus {
+            border-color: #fff;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            font-size: 1.2rem;
+        }
+
+        /* --- SCRIPT CARD STYLES --- */
         .scripts-header {
             margin-bottom: 3rem;
             text-align: left;
@@ -258,7 +293,6 @@
             transform: translateY(-2px);
         }
 
-        /* Decorative line on card */
         .script-card::before {
             content: '';
             position: absolute;
@@ -312,12 +346,6 @@
             gap: 15px;
         }
 
-        .game-info span {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
         .status-dot {
             width: 8px;
             height: 8px;
@@ -338,6 +366,8 @@
             border: 1px solid #222;
             position: relative;
             overflow-x: auto;
+            max-height: 300px;
+            overflow-y: auto;
         }
 
         .copy-btn {
@@ -432,6 +462,9 @@
             <button class="nav-btn" onclick="switchTab('scripts')">
                 Scripts
             </button>
+            <button class="nav-btn" onclick="switchTab('universal')">
+                Universal
+            </button>
         </div>
     </nav>
 
@@ -446,10 +479,10 @@
             </p>
             
             <div class="button-group">
-                <!-- Roblox Play Button -->
-                <a href="https://www.roblox.com/games/11379739543/" target="_blank" class="btn play-btn">
-                    <i class="ph-bold ph-game-controller"></i>
-                    Play Time Bomb Duels
+                <!-- Script Hub Button -->
+                <a href="#" onclick="switchTab('scripts'); return false;" class="btn play-btn">
+                    <i class="ph-bold ph-code"></i>
+                    Script Hub
                 </a>
                 
                 <!-- Discord Link -->
@@ -463,31 +496,93 @@
         <!-- SCRIPTS TAB CONTENT -->
         <div id="scripts" class="tab-content">
             <div class="scripts-header">
-                <h2>Script Library</h2>
-                <p style="color: #666;">Select and copy scripts below.</p>
+                <h2>Specific Scripts</h2>
+                <p style="color: #666;">Scripts designed for specific games.</p>
             </div>
 
-            <!-- Script Card -->
+            <!-- Script Card: Time Bomb -->
             <div class="script-card">
                 <div class="script-top-row">
-                    <span class="script-title"><i class="ph ph-code"></i> Main Loader</span>
+                    <span class="script-title"><i class="ph ph-bomb"></i> Time Bomb Loader</span>
                     <span class="game-tag">Time Bomb Duels</span>
                 </div>
                 
                 <div class="game-info">
                     <span><div class="status-dot"></div> Working</span>
                     <span><i class="ph ph-calendar-check"></i> Updated: Today</span>
-                    <span><i class="ph ph-shield-check"></i> Safe</span>
                 </div>
                 
-                <!-- The Script Code Block -->
-                <div class="code-block" id="script-code">loadstring(game:HttpGet("https://raw.githubusercontent.com/randomdevss/loadstring/refs/heads/main/lua"))()</div>
+                <div class="code-block" id="script-code-tb">loadstring(game:HttpGet("https://raw.githubusercontent.com/randomdevss/loadstring/refs/heads/main/lua"))()</div>
                 
-                <button class="copy-btn" onclick="copyScript()">
+                <button class="copy-btn" onclick="copyScript('script-code-tb')">
                     <i class="ph ph-copy"></i> Copy Script
                 </button>
             </div>
+        </div>
 
+        <!-- UNIVERSAL TAB CONTENT -->
+        <div id="universal" class="tab-content">
+            <div class="scripts-header" style="text-align: center; border: none; margin-bottom: 1rem;">
+                <h2>Universal Scripts</h2>
+                <p style="color: #666;">Works on most Roblox games.</p>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="search-container">
+                <i class="ph ph-magnifying-glass search-icon"></i>
+                <input type="text" id="universal-search" class="search-input" placeholder="Search scripts (e.g. 'Force Jump')..." onkeyup="filterScripts()">
+            </div>
+
+            <div id="universal-list">
+                <!-- Script Card: Force Jump -->
+                <div class="script-card" data-title="Force Jump">
+                    <div class="script-top-row">
+                        <span class="script-title"><i class="ph ph-arrow-up"></i> Force Jump</span>
+                        <span class="game-tag">Universal</span>
+                    </div>
+                    
+                    <div class="game-info">
+                        <span><div class="status-dot"></div> Working</span>
+                        <span><i class="ph ph-globe"></i> All Games</span>
+                    </div>
+                    
+                    <div class="code-block" id="script-code-jump">local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+local rootPart = character:WaitForChild("HumanoidRootPart")
+
+-- 1. FORCE JUMP SETTINGS
+RunService.Heartbeat:Connect(function()
+    if humanoid and humanoid.Parent then
+        humanoid.UseJumpPower = true 
+        humanoid.JumpPower = 50
+    end
+end)
+
+-- 2. MANUAL JUMP HANDLER
+local UserInputService = game:GetService("UserInputService")
+
+UserInputService.JumpRequest:Connect(function()
+    if rootPart and math.abs(rootPart.Velocity.Y) < 2 then
+        rootPart.Velocity = Vector3.new(rootPart.Velocity.X, 50, rootPart.Velocity.Z)
+    end
+end)
+
+-- 3. RESPAWN HANDLER
+player.CharacterAdded:Connect(function(newChar)
+    character = newChar
+    humanoid = newChar:WaitForChild("Humanoid")
+    rootPart = newChar:WaitForChild("HumanoidRootPart")
+end)</div>
+                    
+                    <button class="copy-btn" onclick="copyScript('script-code-jump')">
+                        <i class="ph ph-copy"></i> Copy Script
+                    </button>
+                </div>
+            </div>
         </div>
     </main>
 
@@ -512,8 +607,6 @@
             const selectedTab = document.getElementById(tabName);
             if(selectedTab) {
                 selectedTab.classList.add('active');
-                // Retrigger animation by removing/adding class if desired, 
-                // but simple display switch is cleaner for performance.
             }
 
             // Set active state on clicked button
@@ -525,8 +618,8 @@
         }
 
         // --- COPY FUNCTIONALITY ---
-        function copyScript() {
-            const scriptText = document.getElementById('script-code').innerText;
+        function copyScript(elementId) {
+            const scriptText = document.getElementById(elementId).innerText;
             
             navigator.clipboard.writeText(scriptText).then(() => {
                 showToast();
@@ -542,8 +635,24 @@
             setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
         }
 
+        // --- SEARCH FUNCTIONALITY ---
+        function filterScripts() {
+            const input = document.getElementById('universal-search');
+            const filter = input.value.toLowerCase();
+            const list = document.getElementById('universal-list');
+            const cards = list.getElementsByClassName('script-card');
+
+            for (let i = 0; i < cards.length; i++) {
+                const title = cards[i].getAttribute('data-title').toLowerCase();
+                if (title.indexOf(filter) > -1) {
+                    cards[i].style.display = "";
+                } else {
+                    cards[i].style.display = "none";
+                }
+            }
+        }
+
         // --- BACKGROUND ANIMATION (PARTICLES) ---
-        // Creates a subtle "Time Bomb" / Tech particle effect
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
