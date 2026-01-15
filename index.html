@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sync Hub | Exploiting</title>
+    <title>Sync Hub | Black Theme</title>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,11 +14,17 @@
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
     <style>
-        /* --- CSS VARIABLES & RESET --- */
+        /* --- CSS VARIABLES (BLACK THEME) --- */
         :root {
-            --bg-color: #000000;
-            --text-primary: #ffffff;
-            --text-secondary: #aaaaaa;
+            --bg-color: #000000;      /* Pure Black Background */
+            --card-bg: #111111;       /* Very Dark Grey for Cards */
+            --card-hover: #1a1a1a;
+            --text-primary: #ffffff;  /* White Text */
+            --text-secondary: #aaaaaa; /* Grey Text */
+            --accent-color: #ffffff;  /* White Accent */
+            --border-color: #333333;
+            --nav-bg: rgba(0, 0, 0, 1);
+            --code-bg: #0a0a0a;
         }
 
         * {
@@ -37,15 +43,66 @@
             flex-direction: column;
         }
 
-        /* --- SNOW CANVAS --- */
-        #snow-canvas {
+        /* --- NAVIGATION --- */
+        nav {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
+            padding: 1rem 2rem;
+            background: var(--nav-bg);
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-logo {
+            font-weight: 800;
+            font-size: 1.5rem;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+            color: var(--text-primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.5rem 0;
+        }
+
+        .nav-btn:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-btn.active {
+            color: var(--text-primary);
+            position: relative;
+        }
+
+        /* White Underline Highlight */
+        .nav-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #ffffff;
         }
 
         /* --- MAIN CONTENT --- */
@@ -56,20 +113,27 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 2rem;
-            text-align: center;
+            padding: 8rem 2rem 2rem 2rem;
         }
 
-        .hero-content {
+        .tab-content {
+            display: none;
+            width: 100%;
             max-width: 800px;
-            animation: fadeIn 1s ease forwards;
+            text-align: center;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .tab-content.active {
+            display: block;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* --- HOME STYLES --- */
         h1 {
             font-size: 5rem;
             line-height: 1;
@@ -87,12 +151,17 @@
             line-height: 1.6;
         }
 
-        /* --- DISCORD BUTTON --- */
-        .discord-btn {
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
             display: inline-flex;
             align-items: center;
             gap: 12px;
-            background: #5865F2;
             color: white;
             text-decoration: none;
             padding: 1rem 2.5rem;
@@ -100,30 +169,169 @@
             font-weight: 700;
             font-size: 1.1rem;
             transition: all 0.3s ease;
-            box-shadow: 0 0 0 rgba(88, 101, 242, 0);
+            cursor: pointer;
+            border: none;
+        }
+
+        /* Dark Grey Button */
+        .play-btn {
+            background: #333333; 
+            border: 1px solid #444;
+        }
+
+        .play-btn:hover {
+            background: #444444;
+            transform: translateY(-2px);
+        }
+
+        .discord-btn {
+            background: #5865F2;
         }
 
         .discord-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(88, 101, 242, 0.6);
-            background: #4752c4;
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        /* --- SCRIPT TAB STYLES --- */
+        .scripts-header {
+            margin-bottom: 2rem;
+        }
+        
+        .scripts-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .scripts-header p {
+            color: var(--text-secondary);
+        }
+
+        .script-card {
+            background: var(--card-bg); /* Dark Grey Card */
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: left;
+            margin-bottom: 1.5rem;
+        }
+
+        .script-top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .script-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .game-tag {
+            font-size: 0.75rem;
+            background: #333333; /* Dark Grey Tag */
+            padding: 4px 10px;
+            border-radius: 20px;
+            color: white;
+            font-weight: 700;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .game-info {
+            margin-bottom: 1rem;
+            color: #888888;
+            font-size: 0.95rem;
+        }
+
+        .code-block {
+            background: var(--code-bg); /* Darker background for code */
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: #e0e0e0;
+            word-break: break-all;
+            margin-bottom: 1rem;
+            border: 1px solid #333;
+        }
+
+        .copy-btn {
+            background: #ffffff; /* White Button for contrast */
+            color: black;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .copy-btn:hover {
+            background: #cccccc;
+        }
+
+        /* --- TOAST --- */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 1rem;
+            opacity: 0;
+            transition: opacity 0.3s, bottom 0.3s;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        #toast.show {
+            visibility: visible;
+            opacity: 1;
+            bottom: 50px;
         }
 
         /* Mobile Adjustments */
         @media (max-width: 768px) {
-            h1 { font-size: 3.5rem; }
-            .discord-btn { padding: 0.8rem 2rem; font-size: 1rem; }
+            h1 { font-size: 3rem; }
+            nav { padding: 1rem; }
+            .btn { width: 100%; justify-content: center; }
+            .button-group { flex-direction: column; }
+            .script-top-row { flex-direction: column; gap: 10px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Snow Effect Background -->
-    <canvas id="snow-canvas"></canvas>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-logo">Sync Hub</div>
+        <div class="nav-links">
+            <button class="nav-btn active" onclick="switchTab('home')">
+                <i class="ph ph-house"></i> Home
+            </button>
+            <button class="nav-btn" onclick="switchTab('scripts')">
+                <i class="ph ph-code"></i> Scripts
+            </button>
+        </div>
+    </nav>
 
     <main>
-        <div class="hero-content">
-            <!-- Logo is removed, using Text Title only -->
+        <!-- HOME TAB CONTENT -->
+        <div id="home" class="tab-content active">
             <h1>Sync Hub</h1>
             <p>
                 The ultimate destination for Roblox exploiting. 
@@ -131,64 +339,89 @@
                 Elevate your gameplay today.
             </p>
             
-            <!-- Discord Link -->
-            <a href="https://discord.gg/MAwQYNazgD" target="_blank" class="discord-btn">
-                <i class="ph ph-discord-logo" style="font-size: 1.4rem;"></i>
-                Join for Scripts
-            </a>
+            <div class="button-group">
+                <!-- Roblox Play Button -->
+                <a href="https://www.roblox.com/games/11379739543/" target="_blank" class="btn play-btn">
+                    <i class="ph ph-game-controller" style="font-size: 1.4rem;"></i>
+                    Play Time Bomb Duels
+                </a>
+                
+                <!-- Discord Link -->
+                <a href="https://discord.gg/MAwQYNazgD" target="_blank" class="btn discord-btn">
+                    <i class="ph ph-discord-logo" style="font-size: 1.4rem;"></i>
+                    Join Discord
+                </a>
+            </div>
+        </div>
+
+        <!-- SCRIPTS TAB CONTENT -->
+        <div id="scripts" class="tab-content">
+            <div class="scripts-header">
+                <h2>Latest Scripts</h2>
+                <p>Recently updated and supported game scripts.</p>
+            </div>
+
+            <!-- Script Card -->
+            <div class="script-card">
+                <div class="script-top-row">
+                    <span class="script-title">Main Loader</span>
+                    <span class="game-tag">Time Bomb Duels</span>
+                </div>
+                <div class="game-info">
+                    <strong>Status:</strong> Working &nbsp;|&nbsp; <strong>Updated:</strong> Today
+                </div>
+                <div class="code-block" id="script-code">loadstring(game:HttpGet("https://raw.githubusercontent.com/randomdevss/loadstring/refs/heads/main/lua"))()</div>
+                <button class="copy-btn" onclick="copyScript()">
+                    <i class="ph ph-copy"></i> Copy Script
+                </button>
+            </div>
+
         </div>
     </main>
 
-    <!-- JAVASCRIPT LOGIC (Snow Only) -->
+    <!-- Toast Notification -->
+    <div id="toast">Script copied to clipboard!</div>
+
+    <!-- JAVASCRIPT LOGIC -->
     <script>
-        const canvas = document.getElementById('snow-canvas');
-        const ctx = canvas.getContext('2d');
-        let width = window.innerWidth;
-        let height = window.innerHeight;
-        canvas.width = width;
-        canvas.height = height;
+        // --- TAB SWITCHING LOGIC ---
+        function switchTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
 
-        const snowflakes = [];
-        const maxSnow = 100;
+            // Remove active class from all nav buttons
+            const navBtns = document.querySelectorAll('.nav-btn');
+            navBtns.forEach(btn => btn.classList.remove('active'));
 
-        class Snowflake {
-            constructor() {
-                this.reset();
-            }
-            reset() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * -height;
-                this.size = Math.random() * 2 + 1;
-                this.speed = Math.random() * 1 + 0.5;
-                this.opacity = Math.random() * 0.5 + 0.3;
-            }
-            update() {
-                this.y += this.speed;
-                if (this.y > height) this.reset();
-            }
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(255,255,255,${this.opacity})`;
-                ctx.fill();
-            }
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+
+            // Set active state on clicked button
+            navBtns.forEach(btn => {
+                if(btn.getAttribute('onclick').includes(tabName)) {
+                    btn.classList.add('active');
+                }
+            });
         }
 
-        for (let i = 0; i < maxSnow; i++) snowflakes.push(new Snowflake());
-
-        function animateSnow() {
-            ctx.clearRect(0, 0, width, height);
-            snowflakes.forEach(flake => { flake.update(); flake.draw(); });
-            requestAnimationFrame(animateSnow);
+        // --- COPY FUNCTIONALITY ---
+        function copyScript() {
+            const scriptText = document.getElementById('script-code').innerText;
+            
+            navigator.clipboard.writeText(scriptText).then(() => {
+                showToast();
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                alert("Could not copy automatically. Please select and copy manually.");
+            });
         }
-        animateSnow();
 
-        window.addEventListener('resize', () => {
-            width = window.innerWidth;
-            height = window.innerHeight;
-            canvas.width = width;
-            canvas.height = height;
-        });
+        function showToast() {
+            const toast = document.getElementById("toast");
+            toast.className = "show";
+            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+        }
     </script>
 </body>
 </html>
