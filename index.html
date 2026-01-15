@@ -361,12 +361,13 @@
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.85rem;
             color: #d4d4d4;
-            word-break: break-all;
+            /* FIX: Changed from word-break to pre-wrap to keep formatting */
+            white-space: pre-wrap; 
             margin-bottom: 1.5rem;
             border: 1px solid #222;
             position: relative;
             overflow-x: auto;
-            max-height: 300px;
+            max-height: 400px; /* Allow more height for formatting */
             overflow-y: auto;
         }
 
@@ -546,6 +547,7 @@
                         <span><i class="ph ph-globe"></i> All Games</span>
                     </div>
                     
+                    <!-- Force Jump Script (Formatted) -->
                     <div class="code-block" id="script-code-jump">local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 
